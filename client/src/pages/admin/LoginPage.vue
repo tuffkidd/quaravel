@@ -43,16 +43,17 @@
             </q-input>
 
             <q-field
-              :rules="[val => val == false || '운영정책에 동의하셔야 합니다.']"
-              :value="acceptPolicy"
-              ref="toggle"
-              @click="acceptPolicy = !acceptPolicy"
+              :rules="[val => val !== false || '운영정책에 동의해야합니다.']"
+              :model-value="acceptPolicy"
+              ref="policyRef"
               borderless
+              dense
             >
               <template v-slot:control>
                 <q-checkbox
                   v-model="acceptPolicy"
                   label="운영정책 동의"
+                  dense
                 ></q-checkbox>
               </template>
             </q-field>
@@ -69,73 +70,23 @@
           </q-form>
         </q-card-section>
       </q-card>
-      <div>
-        <q-btn label="GET USER" type="button" @click="getUser"></q-btn>
-      </div>
     </div>
   </div>
 </template>
-
 <script setup>
-import { api } from 'src/boot/axios'
 import { ref } from 'vue'
+import { useUserStore } from 'src/stores/user'
 
+// Notify.create('ddd')
+const policyRef = ref(null)
 const email = ref('') // 이메일
 const password = ref('') // 비밀번호
 const hidePasswd = ref(true) // 비밀번호 보기/감추기 토글
 const acceptPolicy = ref(false) // 운영정책에 동의했는지 여부
 
+const userStore = useUserStore()
+
 const login = async () => {
-  await api.get('/v1/sanctum/csrf-cookie')
-  const { data } = await api.post('/v1/auth/login', {
-    email: email.value,
-    password: password.value
-  })
-  console.log(data)
+  await userStore.login(email.value, password.value)
 }
-
-const getUser = async () => {
-  await api.post('/v1/user')
-}
-// import { ref } from 'vue'
-// import { useUserStore } from 'stores/user'
-// import { SessionStorage } from 'quasar'
-// import { useRouter } from 'vue-router'
-
-// // const $store = useStore()
-// // layout: 'PublicLayout'
-// const userStore = useUserStore()
-// const router = useRouter()
-
-// const isPwd = ref(true)
-// const email = ref('')
-// const password = ref('')
-// const accept = ref(true)
-
-// // console.log(`Auth id: ${$store.state.auth.id}`)
-
-// const login = async () => {
-//   await userStore.getCsrfCookie()
-//   await userStore.login(email.value, password.value)
-//   const user = await userStore.fetchUser()
-//   userStore.setUser(user.data)
-//   if (user.data.id > 0) {
-//     router.push({ name: 'admin-dashboard' })
-//   }
-// }
-
-// const getUser = async () => {
-//   await userStore.fetchUser()
-// }
-
-// // 아래 코드는 부트로 옮긴다. 대시보드 만든다
-// const currentUser = SessionStorage.getItem('user')
-// if (currentUser !== null) {
-//   if (currentUser.id > 0) {
-//     console.log('dlkj')
-//     router.push({ name: 'admin-dashboard' })
-//   } else {
-//     console.log('뭔가 이상')
-//   }
-// }
 </script>

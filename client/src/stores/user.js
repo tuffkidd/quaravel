@@ -1,56 +1,58 @@
 import { defineStore } from 'pinia'
-import { api } from 'boot/axios'
 import { SessionStorage } from 'quasar'
+import { api } from 'src/boot/axios'
 
 export const useUserStore = defineStore('user', {
   state: () => ({
     user: {},
     token: SessionStorage.getItem('token') || ''
   }),
+
+  getters: {
+    // 사용자 정보 가져오기
+    getUser: () => {
+      return this.user
+    },
+
+    // 토큰 가져오기
+    getToken: () => {
+      return SessionStorage.getItem('token')
+    }
+  },
+
   actions: {
-    async getCsrfCookie () {
+    // CSRF
+    async getCsrf () {
       try {
         await api.get('/v1/sanctum/csrf-cookie')
       } catch (error) {
         if (error) throw error
       }
     },
+    // 로그인
     async login (email, password) {
-      try {
-        const { data } = await api.post('/v1/auth/login', { email, password })
-        this.setToken(data)
-        // await api.post('/v1/auth/login', { email, password }).then(response => {
-        // api.defaults.headers.common.Authorization =
-        // 'Bearer ' + response.data.token
-        // })
-      } catch (error) {
-        if (error) throw error
+      // 이미 세션이 존재하면 로그인하지 않는다.
+      if (
+        !SessionStorage.getItem('token') ||
+        SessionStorage.getItem('token') === ''
+      ) {
+        await this.getCsrf()
+
+        try {
+          const { data } = await api.post('/v1/auth/login', { email, password })
+          this.setToken(data)
+        } catch (error) {
+          if (error) throw error
+        }
+      } else {
+        alert('이미 로그인되어있습니다.')
       }
     },
-    async fetchUser () {
-      try {
-        return await api.get('/v1/auth/user')
-      } catch (error) {
-        if (error) throw error
-      }
-    },
+    // 토큰 저장
     setToken (loginData) {
       const copyOfData = { ...loginData }
       SessionStorage.set('token', copyOfData.token)
       this.token = copyOfData.token
-    },
-    setUser (userData) {
-      const copyOfData = { ...userData }
-      SessionStorage.set('user', copyOfData)
-      this.user = copyOfData
-    },
-    getUser () {
-      return this.user
     }
-    // clearUser () {
-    // SessionStorage.set('token', {})
-    // SessionStorage.set('user', {})
-    // this.user = {}
-    // }
   }
 })
