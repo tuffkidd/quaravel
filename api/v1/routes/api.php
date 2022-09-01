@@ -25,6 +25,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     // });
 
     Route::get('/auth/user', [AuthController::class, 'user']);
+    Route::get('/auth/isAdmin', [AuthController::class, 'user']);
 
     Route::get('/auth/get_users', [AuthController::class, 'get_users']); // https://qualara.test/api/v1/auth/get_users
 

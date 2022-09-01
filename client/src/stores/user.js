@@ -1,25 +1,15 @@
 import { defineStore } from 'pinia'
-import { SessionStorage } from 'quasar'
 import { api } from 'src/boot/axios'
 
 export const useUserStore = defineStore('user', {
   state: () => ({
     user: {},
-    token: SessionStorage.getItem('token') || ''
+    token: ''
   }),
-
+  persist: true,
   getters: {
-    // 사용자 정보 가져오기
-    getUser: () => {
-      return this.user
-    },
-
-    // 토큰 가져오기
-    getToken: () => {
-      return SessionStorage.getItem('token')
-    }
+    isAdmin: state => state.user.isAdmin
   },
-
   actions: {
     // CSRF
     async getCsrf () {
@@ -31,28 +21,34 @@ export const useUserStore = defineStore('user', {
     },
     // 로그인
     async login (email, password) {
-      // 이미 세션이 존재하면 로그인하지 않는다.
-      if (
-        !SessionStorage.getItem('token') ||
-        SessionStorage.getItem('token') === ''
-      ) {
-        await this.getCsrf()
-
+      if (!this.token || this.token === '') {
+        // 현재 토큰이 없다면 로그인 한다.
         try {
           const { data } = await api.post('/v1/auth/login', { email, password })
           this.setToken(data)
+          this.setUser()
         } catch (error) {
           if (error) throw error
         }
       } else {
-        alert('이미 로그인되어있습니다.')
+        // 있다면 대시보드로 이동.
+        this.router.push('/admin/dashboard')
       }
     },
     // 토큰 저장
     setToken (loginData) {
-      const copyOfData = { ...loginData }
-      SessionStorage.set('token', copyOfData.token)
-      this.token = copyOfData.token
+      this.token = loginData.token
+    },
+    // 사용자 저장
+    async setUser () {
+      await api.get('/v1/auth/user').then(res => {
+        this.user = {
+          id: res.data.id,
+          name: res.data.name,
+          email: res.data.email,
+          isAdmin: !!(res.data.type === 'S' || res.data.type === 'A')
+        }
+      })
     }
   }
 })

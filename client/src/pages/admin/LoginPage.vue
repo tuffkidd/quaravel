@@ -87,6 +87,7 @@ const acceptPolicy = ref(false) // 운영정책에 동의했는지 여부
 const userStore = useUserStore()
 
 const login = async () => {
+  await userStore.getCsrf()
   await userStore.login(email.value, password.value)
 }
 </script>

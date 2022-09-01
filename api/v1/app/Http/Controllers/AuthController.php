@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redis;
 use Laravel\Sanctum\PersonalAccessToken;
 use Illuminate\Support\Facades\Validator;
 
@@ -32,7 +33,7 @@ class AuthController extends Controller
             if ($validate->fails()) {
                 return response()->json([
                     'status' => false,
-                    'message' => $validate->getMessageBag()->toArray(),
+                    'msg' => $validate->getmsgBag()->toArray(),
                     'errors' => $validate->errors(),
                 ], 401);
             }
@@ -47,13 +48,13 @@ class AuthController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => '사용자 생성 완료.',
+                'msg' => '사용자 생성 완료.',
                 'token' => $user->createToken("API TOKEN")->plainTextToken
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => false,
-                'message' => $th->getMessage()
+                'msg' => $th->getmsg()
             ], 500);
         }
     }
@@ -72,7 +73,7 @@ class AuthController extends Controller
             if ($validate->fails()) {
                 return response()->json([
                     'status' => false,
-                    'message' => $validate->getMessageBag()->toArray(),
+                    'msg' => $validate->getmsgBag()->toArray(),
                     'errors' => $validate->errors(),
                 ], 401);
             }
@@ -80,7 +81,7 @@ class AuthController extends Controller
             if (!Auth::attempt($request->only(['email', 'password']))) {
                 return response()->json([
                     'status' => false,
-                    'message' => '이메일 또는 비밀번호가 올바르지 않습니다.'
+                    'msg' => '이메일 또는 비밀번호가 올바르지 않습니다.'
                 ], 401);
             }
 
@@ -88,13 +89,13 @@ class AuthController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => '로그인 했습니다.',
+                'msg' => '로그인 했습니다.',
                 'token' => $user->createToken("API TOKEN", ['*'], now()->addHours(1))->plainTextToken
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => false,
-                'message' => $th->getMessage()
+                'msg' => $th->getmsg()
             ], 500);
         }
     }
@@ -116,7 +117,7 @@ class AuthController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => '로그아웃 했습니다.'
+            'msg' => '로그아웃 했습니다.'
         ], 200);
     }
 
@@ -131,12 +132,37 @@ class AuthController extends Controller
         if (!$plainToken || $plainToken == '' || !$token || $token == '' || $token == null) {
             return response()->json([
                 'status' => false,
-                'message' => '정상적인 방법으로 이용해주세요.'
+                'msg' => '정상적인 방법으로 이용해주세요.'
             ]);
         }
 
         $user = $token->tokenable->toArray();
         return $user;
+    }
+
+    /**
+     * 관리자인가?
+     */
+    public function isAdmin(Request $request)
+    {
+        $plainToken = $request->bearerToken();
+        $token = PersonalAccessToken::findToken($plainToken);
+        if (!$plainToken || $plainToken == '' || !$token || $token == '' || $token == null) {
+            return response()->json([
+                'status' => false,
+                'msg' => '정상적인 방법으로 이용해주세요.'
+            ]);
+        }
+        $user = $token->tokenable()->toArray();
+        if ($user['type'] == 'S' || $user['type'] == 'A') {
+            return response()->json([
+                'status' => true
+            ]);
+        } else {
+            return response()->json([
+                'status' => false
+            ]);
+        }
     }
 
     public function get_users()
