@@ -53,7 +53,7 @@ module.exports = configure(function (/* ctx */) {
         node: 'node18'
       },
 
-      vueRouterMode: 'history', // available values: 'hash', 'history'
+      vueRouterMode: 'history' // available values: 'hash', 'history'
       // vueRouterBase,
       // vueDevtools,
       // vueOptionsAPI: false,
@@ -69,32 +69,7 @@ module.exports = configure(function (/* ctx */) {
       // polyfillModulePreload: true,
       // distDir
 
-      // extendViteConf (viteConf) {
-      //   console.log(viteConf)
-      //   viteConf.server = {
-      //     fs: {},
-      //     port: 8100,
-      //     host: '0.0.0.0',
-      //     hmr: {
-      //       port: 80
-      //     },
-      //     strictPort: true,
-      //     middlewareMode: 'ssr'
-      //   }
-      //   console.log(viteConf)
-      // }
-
-      extendViteConf (viteConf) {
-        viteConf.server = {
-          hmr: {
-            host: '0.0.0.0',
-            protocol: 'ws',
-            port: 3000
-          },
-          middlewareMode: true
-        }
-      }
-
+      // extendViteConf (viteConf) {},
       // viteVuePluginOptions: {},
 
       // vitePlugins: [
