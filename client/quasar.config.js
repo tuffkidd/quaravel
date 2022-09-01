@@ -53,7 +53,7 @@ module.exports = configure(function (/* ctx */) {
         node: 'node18'
       },
 
-      vueRouterMode: 'history' // available values: 'hash', 'history'
+      vueRouterMode: 'history', // available values: 'hash', 'history'
       // vueRouterBase,
       // vueDevtools,
       // vueOptionsAPI: false,
@@ -69,6 +69,16 @@ module.exports = configure(function (/* ctx */) {
       // polyfillModulePreload: true,
       // distDir
 
+      extendViteConf (viteConf) {
+        viteConf.server = {
+          hmr: {
+            host: '0.0.0.0',
+            protocol: 'ws',
+            port: 3000 // 또는 3000, 3001, 3002... (인텔맥에선 80도 되는데, M1 맥에선 안된다. 홈스테드 문제도 있는가?)
+          },
+          middlewareMode: true
+        }
+      }
       // extendViteConf (viteConf) {},
       // viteVuePluginOptions: {},
 
@@ -82,7 +92,7 @@ module.exports = configure(function (/* ctx */) {
       // proxy: 'http://quaravel.test',
       // https: true
       // port: 8100,
-      open: true // opens browser window automatically
+      open: false // opens browser window automatically
     },
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#framework
