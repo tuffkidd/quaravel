@@ -50,10 +50,10 @@ module.exports = configure(function (/* ctx */) {
     build: {
       target: {
         browser: ['es2019', 'edge88', 'firefox78', 'chrome87', 'safari13.1'],
-        node: 'node16'
+        node: 'node18'
       },
 
-      vueRouterMode: 'history' // available values: 'hash', 'history'
+      vueRouterMode: 'history', // available values: 'hash', 'history'
       // vueRouterBase,
       // vueDevtools,
       // vueOptionsAPI: false,
@@ -69,7 +69,32 @@ module.exports = configure(function (/* ctx */) {
       // polyfillModulePreload: true,
       // distDir
 
-      // extendViteConf (viteConf) {},
+      // extendViteConf (viteConf) {
+      //   console.log(viteConf)
+      //   viteConf.server = {
+      //     fs: {},
+      //     port: 8100,
+      //     host: '0.0.0.0',
+      //     hmr: {
+      //       port: 80
+      //     },
+      //     strictPort: true,
+      //     middlewareMode: 'ssr'
+      //   }
+      //   console.log(viteConf)
+      // }
+
+      extendViteConf (viteConf) {
+        viteConf.server = {
+          hmr: {
+            host: '0.0.0.0',
+            protocol: 'ws',
+            port: 3000
+          },
+          middlewareMode: true
+        }
+      }
+
       // viteVuePluginOptions: {},
 
       // vitePlugins: [
@@ -79,9 +104,10 @@ module.exports = configure(function (/* ctx */) {
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#devServer
     devServer: {
+      // proxy: 'http://quaravel.test',
       // https: true
-      port: 8100,
-      open: false // opens browser window automatically
+      // port: 8100,
+      open: true // opens browser window automatically
     },
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#framework
