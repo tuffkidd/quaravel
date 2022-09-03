@@ -54,7 +54,6 @@ export const useAuthStore = defineStore('auth', {
       }
     },
     setToken (payload) {
-      console.log(payload)
       this.token = payload.token
     }
   }

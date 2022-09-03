@@ -31,7 +31,8 @@ module.exports = configure(function (/* ctx */) {
     boot: [
       // { path: 'router', server: false },
       // { path: 'guard', server: false },
-      { path: 'axios', server: false }
+      // { path: 'axios', server: false }
+      'axios'
     ],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css

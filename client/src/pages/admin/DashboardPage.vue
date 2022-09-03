@@ -1,5 +1,5 @@
 <template>
-  <q-page class="row">
+  <q-page padding>
     <div>
       dlsj
     </div>
