@@ -1,14 +1,19 @@
 import { defineStore } from 'pinia'
 import { api } from 'src/boot/axios'
 
-export const useUserStore = defineStore('user', {
+export const useAuthStore = defineStore('auth', {
   state: () => ({
-    user: {},
+    id: '',
+    email: '',
+    name: '',
+    nickname: '',
+    isAdmin: false,
     token: ''
   }),
   persist: true,
   getters: {
-    isAdmin: state => state.user.isAdmin
+    getAdmin: state => state.isAdmin,
+    getToken: state => state.token
   },
   actions: {
     // CSRF
@@ -35,20 +40,22 @@ export const useUserStore = defineStore('user', {
         this.router.push('/admin/dashboard')
       }
     },
-    // 토큰 저장
-    setToken (loginData) {
-      this.token = loginData.token
-    },
     // 사용자 저장
     async setUser () {
-      await api.get('/v1/auth/user').then(res => {
-        this.user = {
-          id: res.data.id,
-          name: res.data.name,
-          email: res.data.email,
-          isAdmin: !!(res.data.type === 'S' || res.data.type === 'A')
-        }
-      })
+      try {
+        await api.get('/v1/auth/user').then(res => {
+          this.id = res.data.id
+          this.name = res.data.name
+          this.email = res.data.email
+          this.isAdmin = !!(res.data.type === 'S' || res.data.type === 'A')
+        })
+      } catch (error) {
+        if (error) throw error
+      }
+    },
+    setToken (payload) {
+      console.log(payload)
+      this.token = payload.token
     }
   }
 })

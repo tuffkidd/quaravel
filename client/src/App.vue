@@ -1,11 +1,5 @@
 <template>
   <router-view />
+  <q-btn></q-btn>
 </template>
-
-<script>
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'App'
-})
-</script>
+<script></script>

@@ -9,7 +9,6 @@
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js
 
 const { configure } = require('quasar/wrappers')
-const path = require('path')
 
 module.exports = configure(function (/* ctx */) {
   return {
@@ -18,20 +17,25 @@ module.exports = configure(function (/* ctx */) {
       // include = [],
       // exclude = [],
       // rawOptions = {},
-      warnings: false,
-      errors: false
+      warnings: true,
+      errors: true
     },
 
     // https://v2.quasar.dev/quasar-cli/prefetch-feature
-    preFetch: true,
+    // preFetch: true,
 
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli/boot-files
-    boot: ['pinia', 'axios', 'routing'],
+    boot: [
+
+      'axios'
+    ],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css
-    css: ['app.scss'],
+    css: [
+      'app.scss'
+    ],
 
     // https://github.com/quasarframework/quasar/tree/dev/extras
     extras: [
@@ -42,7 +46,7 @@ module.exports = configure(function (/* ctx */) {
       // 'themify',
       // 'line-awesome',
       // 'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
-      'mdi-v6',
+
       'roboto-font', // optional, you are not bound to it
       'material-icons' // optional, you are not bound to it
     ],
@@ -51,10 +55,10 @@ module.exports = configure(function (/* ctx */) {
     build: {
       target: {
         browser: ['es2019', 'edge88', 'firefox78', 'chrome87', 'safari13.1'],
-        node: 'node18'
+        node: 'node16'
       },
 
-      vueRouterMode: 'history', // available values: 'hash', 'history'
+      vueRouterMode: 'hash' // available values: 'hash', 'history'
       // vueRouterBase,
       // vueDevtools,
       // vueOptionsAPI: false,
@@ -69,20 +73,7 @@ module.exports = configure(function (/* ctx */) {
       // minify: false,
       // polyfillModulePreload: true,
       // distDir
-      alias: {
-        '@': path.join(__dirname, './src')
-      },
 
-      extendViteConf (viteConf) {
-        viteConf.server = {
-          hmr: {
-            host: '0.0.0.0',
-            protocol: 'ws',
-            port: 3000 // 또는 3000, 3001, 3002... (인텔맥에선 80도 되는데, M1 맥에선 안된다. 홈스테드 문제도 있는가?)
-          },
-          middlewareMode: true
-        }
-      }
       // extendViteConf (viteConf) {},
       // viteVuePluginOptions: {},
 
@@ -93,19 +84,13 @@ module.exports = configure(function (/* ctx */) {
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#devServer
     devServer: {
-      // proxy: 'http://quaravel.test',
       // https: true
-      // port: 8100,
-      open: false // opens browser window automatically
+      open: true // opens browser window automatically
     },
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#framework
     framework: {
-      config: {
-        notify: {
-          classes: 'ww-notify'
-        }
-      },
+      config: {},
 
       // iconSet: 'material-icons', // Quasar icon set
       // lang: 'en-US', // Quasar language pack
@@ -118,19 +103,12 @@ module.exports = configure(function (/* ctx */) {
       // directives: [],
 
       // Quasar plugins
-      plugins: [
-        'Dialog',
-        'Notify',
-        'Meta',
-        'Cookies',
-        'LocalStorage',
-        'SessionStorage'
-      ]
+      plugins: []
     },
 
     // animations: 'all', // --- includes all animations
     // https://v2.quasar.dev/options/animations
-    animations: 'all',
+    animations: [],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#property-sourcefiles
     // sourceFiles: {
@@ -199,11 +177,13 @@ module.exports = configure(function (/* ctx */) {
 
       packager: {
         // https://github.com/electron-userland/electron-packager/blob/master/docs/api.md#options
+
         // OS X / Mac App Store
         // appBundleId: '',
         // appCategoryType: '',
         // osxSign: '',
         // protocol: 'myapp://path',
+
         // Windows only
         // win32metadata: { ... }
       },
@@ -211,13 +191,15 @@ module.exports = configure(function (/* ctx */) {
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        appId: 'client'
+        appId: 'client2'
       }
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/developing-browser-extensions/configuring-bex
     bex: {
-      contentScripts: ['my-content-script']
+      contentScripts: [
+        'my-content-script'
+      ]
 
       // extendBexScriptsConf (esbuildConf) {}
       // extendBexManifestJson (json) {}

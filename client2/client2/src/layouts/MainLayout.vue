@@ -19,9 +19,15 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
+    <q-drawer
+      v-model="leftDrawerOpen"
+      show-if-above
+      bordered
+    >
       <q-list>
-        <q-item-label header>
+        <q-item-label
+          header
+        >
           Essential Links
         </q-item-label>
 
@@ -40,8 +46,6 @@
 </template>
 
 <script>
-// 73|jHLnqekhbQc2lmqEZJbUNZgO8yJYIx1cCu7IfeTX
-// import { SessionStorage } from 'quasar'
 import { defineComponent, ref } from 'vue'
 import EssentialLink from 'components/EssentialLink.vue'
 

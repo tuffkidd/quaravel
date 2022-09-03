@@ -1,5 +1,8 @@
 <template>
-  <div class="row window-height window-width justify-center items-center">
+  <q-page
+    class="row window-height window-width justify-center items-center"
+    padding
+  >
     <div class="col" style="max-width: 400px">
       <q-card flat bordered class="my-card q-ma-sm">
         <q-card-section class="bg-primary text-white text-h5">
@@ -71,11 +74,11 @@
         </q-card-section>
       </q-card>
     </div>
-  </div>
+  </q-page>
 </template>
 <script setup>
 import { ref } from 'vue'
-import { useUserStore } from 'src/stores/user'
+import { useAuthStore } from 'src/stores/auth'
 
 // Notify.create('ddd')
 const policyRef = ref(null)
@@ -84,10 +87,10 @@ const password = ref('') // 비밀번호
 const hidePasswd = ref(true) // 비밀번호 보기/감추기 토글
 const acceptPolicy = ref(false) // 운영정책에 동의했는지 여부
 
-const userStore = useUserStore()
+const authStore = useAuthStore()
 
 const login = async () => {
-  await userStore.getCsrf()
-  await userStore.login(email.value, password.value)
+  await authStore.getCsrf()
+  await authStore.login(email.value, password.value)
 }
 </script>

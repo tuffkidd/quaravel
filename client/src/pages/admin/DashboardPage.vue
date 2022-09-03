@@ -1,11 +1,11 @@
 <template>
-  <div class="row window-height window-width justify-center items-center">
-    hehehe
-  </div>
+  <q-page class="row">
+    <div>
+      dlsj
+    </div>
+  </q-page>
 </template>
 
-<script>
-export default {
-  // name: 'PageName',
-}
+<script setup>
+console.log('adslkfj')
 </script>

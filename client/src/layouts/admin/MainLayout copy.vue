@@ -1,6 +1,6 @@
 <template>
-  <q-layout view="hHr lpR fFf">
-    <q-header class="bg-primary text-white" height-hint="98">
+  <q-layout view="hHr LpR lFf">
+    <q-header class="bg-primary text-white">
       <q-toolbar>
         <q-btn dense flat round icon="mdi-menu" @click="toggleLeftDrawer" />
         <q-btn

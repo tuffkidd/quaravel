@@ -1,6 +1,9 @@
 <template>
-  <!-- This is where pages get injected -->
-  <router-view />
+  <q-layout view="hHr LpR lFf">
+    <q-page-container>
+      <router-view />
+    </q-page-container>
+  </q-layout>
 </template>
 
 <script setup></script>

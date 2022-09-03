@@ -19,6 +19,27 @@ use App\Http\Controllers\AuthController;
 Route::post('/auth/register', [AuthController::class, 'register']); // https://qualara.test/api/v1/auth/register
 Route::post('/auth/login', [AuthController::class, 'login']);
 
+Route::get('/gettest', function (Request $request) {
+    $plainToken = $request->bearerToken();
+    // error_log('PlainTest: ' . $plainToken);
+    // echo $plainToken;
+    $aa = [
+        'aa', 'bb', 'cc', $plainToken, 'hoho'
+    ];
+
+    return response()->json($aa, 200);
+});
+
+Route::post('/posttest', function (Request $request) {
+    $plainToken = $request->bearerToken();
+    $aa = [
+        'aa', 'bb', 'cc', $plainToken, 'hoho'
+    ];
+
+    return response()->json($aa, 200);
+});
+
+
 Route::group(['middleware' => 'auth:sanctum'], function () {
     // Route::get('/user', function (Request $request) {
     //     return $request->user();

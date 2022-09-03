@@ -7,8 +7,8 @@ import {
   createWebHashHistory
 } from 'vue-router'
 import routes from './routes'
-import { useUserStore } from 'src/stores/user'
-import { Notify } from 'quasar'
+import { useAuthStore } from 'src/stores/auth'
+import { api } from 'src/boot/axios'
 
 export default route(function ({ store }) {
   const createHistory = process.env.SERVER
@@ -28,35 +28,50 @@ export default route(function ({ store }) {
       process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE
     )
   })
+/*
+  Router.beforeEach(async (to, from, next) => {
+    const authStore = useAuthStore(store)
+    const publicAdminPaths = ['/admin/login', '/admin/recover']
 
-  Router.beforeEach((to, from, next) => {
-    const userStore = useUserStore(store)
-    const isAdmin = userStore.isAdmin
-    const isUser = userStore.user
+    console.log(
+      'requiresAdmin: ',
+      to.matched.some(route => route.meta.requiresAdmin)
+    )
 
-    if (to.name === 'admin' && isAdmin) {
-      // 로그인되어있는데. /admin 으로 접속하는 경우
-      next({ name: 'admin-dashboard' })
-    } else if (to.name === 'admin' && !isAdmin) {
-      Notify.create('hhdh')
-      next({ name: 'admin-login' })
+    console.log('어드민이냐', authStore.isAdmin)
+
+    if (to.path.startsWith('/admin')) {
+      next
+
+    //   if (to.matched.some(route => route.meta.requiresAdmin)) {
+    //     if (!authStore.isAdmin) { // 로그인 안되어있음.
+    //       next({ path: '/admin/login', replace: true })
+    //     }
+    //   } else {
+    //     next()
+    //   }
+    // } else {
+    //   next()
     }
-
-    if (to.matched.some(route => route.meta.requiresAdmin) && !isAdmin) {
-      next({ name: 'admin-login' })
-    } else if (to.matched.some(route => route.meta.requiresAdmin) && !isUser) {
-      Notify.create({
-        icon: 'mdi-alert-outline',
-        message: '로그인 후 이용해주세요.',
-        type: 'warning',
-        timeout: 2000
-        // classes: 'ww-notify'
-      })
-
-      next({ name: 'user-login' })
-    }
-    next()
+    // if (
+    //   to.matched.some(route => route.meta.requiresAdmin) &&
+    //   !authStore.isAdmin
+    // ) {
+    //   console.log('Route: ', to.matched.some((route) => {
+    //     console.log(route)
+    //   }))
+    //   // next({ name: 'admin-login' })
+    //   next()
+    // } else if (
+    //   !to.matched.some(route => route.meta.requiresAdmin) &&
+    //   authStore.isAdmin &&
+    //   publicAdminPaths.includes(to.path)
+    // ) {
+    //   next({ name: 'admin-dashboard' })
+    // } else {
+    //   next()
+    // }
   })
-
+ */
   return Router
 })
