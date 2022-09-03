@@ -1,5 +1,5 @@
 /* eslint-disable indent */
-import { preFetch, route } from 'quasar/wrappers'
+import { route } from 'quasar/wrappers'
 import {
   createRouter,
   createMemoryHistory,
@@ -28,30 +28,25 @@ export default route(function ({ store }) {
     )
   })
 
-  // Router.beforeEach((to, from, next) => {
-  //   const authStore = useAuthStore(store)
-  //   const publicAdminPaths = ['/admin/login', '/admin/recover']
+  Router.beforeEach((to, from, next) => {
+    const authStore = useAuthStore(store)
+    const publicAdminPaths = ['/admin/login', '/admin/recover']
 
-  //   console.log('현재 라우트: ', to.name)
+    console.log('현재 라우트: ', to.name)
+    console.log('야 쿠키 어드민: ', authStore.isAdmin)
+    console.log(
+      'requiresAdmin: ',
+      to.matched.some(route => route.meta.requiresAdmin)
+    )
 
-  //   console.log(
-  //     'requiresAdmin: ',
-  //     to.matched.some(route => route.meta.requiresAdmin)
-  //   )
-
-  //   if (publicAdminPaths.includes(to.path)) {
-  //     if (authStore.isAdmin) {
-  //       next({ path: '/admin/dashboard' })
-  //     } else {
-  //       next()
-  //     }
-  //   } else if (to.matched.some(route => route.meta.requiresAdmin) && !authStore.isAdmin) {
-  //     console.log('시팔', authStore.isAdmin)
-  //     next({ path: '/admin/login' })
-  //   } else {
-  //     next()
-  //   }
-  // })
+    if (to.matched.some(route => route.meta.requiresAdmin) && !authStore.isAdmin && !publicAdminPaths.includes(to.path)) {
+      next({ path: '/admin/login' })
+    } else if (authStore.isAdmin && publicAdminPaths.includes(to.path)) {
+      next({ path: '/admin/dashboard', replace: true })
+    } else {
+      next()
+    }
+  })
 
   return Router
 })

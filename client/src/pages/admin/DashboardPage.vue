@@ -7,5 +7,5 @@
 </template>
 
 <script setup>
-console.log('adslkfj')
+
 </script>

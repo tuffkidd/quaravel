@@ -1,4 +1,4 @@
-import { LocalStorage } from 'quasar'
+// import { LocalStorage } from 'quasar'
 import { boot } from 'quasar/wrappers'
 import { useAuthStore } from 'src/stores/auth'
 
@@ -6,36 +6,18 @@ import { useAuthStore } from 'src/stores/auth'
 // more info on params: https://v2.quasar.dev/quasar-cli/boot-files
 export default boot(({ store, router }) => {
   const authStore = useAuthStore(store)
-  const ls = LocalStorage.getItem('auth')
-  console.log(ls)
 
-  router.beforeEach((to, from) => {
-    // const records = to.matched.filter((record) => record.meta.requiresAdmin)
-    // if (records.length > 0) {
-    //   if (!authStore.isAdmin) {
-    //     return {
-    //       path: '/admin/login',
-    //       query: { redirect: to.fullPath }
-    //     }
-    //   }
-    // }
+  // router.beforeEach((to, from, next) => {
+  //   const publicAdminPaths = ['/admin/login', '/admin/recover']
 
-    const publicAdminPaths = ['/admin/login', '/admin/recover']
-    console.log(from)
-    if (to.matched.some(route => route.meta.requiresAdmin) || publicAdminPaths.includes(to.path)) {
-      return
-    }
+  console.log('부트가드에서 찍은 관리자 여부: ', authStore.isAdmin)
 
-    if (!authStore.isAdmin) {
-      return { name: 'admin-login' }
-    }
-    // if (publicAdminPaths.includes(to.path)) {
-    //   next()
-    // } else if (to.matched.some(route => route.meta.requiresAdmin) && !authStore.isAdmin) {
-    //   console.log('시팔', authStore.isAdmin)
-    //   next({ path: '/admin/login' })
-    // } else {
-    //   next()
-    // }
-  })
+  //   if (to.matched.some(route => route.meta.requiresAdmin) && !authStore.isAdmin && !publicAdminPaths.includes(to.path)) {
+  //     next({ path: '/admin/login' })
+  //   } else if (authStore.isAdmin && publicAdminPaths.includes(to.path)) {
+  //     next({ path: '/admin/dashboard', replace: true })
+  //   } else {
+  //     next()
+  //   }
+  // })
 })

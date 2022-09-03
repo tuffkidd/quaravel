@@ -9,7 +9,6 @@
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js
 
 const { configure } = require('quasar/wrappers')
-const path = require('path')
 
 module.exports = configure(function (/* ctx */) {
   return {
@@ -28,7 +27,12 @@ module.exports = configure(function (/* ctx */) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli/boot-files
-    boot: ['guard', 'axios'],
+    // boot: ['guard', 'axios'],
+    boot: [
+      // { path: 'router', server: false },
+      // { path: 'guard', server: false },
+      { path: 'axios', server: false }
+    ],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css
     css: ['app.scss'],
@@ -69,9 +73,6 @@ module.exports = configure(function (/* ctx */) {
       // minify: false,
       // polyfillModulePreload: true,
       // distDir
-      alias: {
-        '@': path.join(__dirname, './src')
-      },
 
       extendViteConf (viteConf) {
         viteConf.server = {
@@ -153,6 +154,10 @@ module.exports = configure(function (/* ctx */) {
       // extendPackageJson (json) {},
 
       pwa: false,
+      manualStoreSerialization: false,
+      manualStoreSsrContextInjection: false,
+      manualStoreHydration: false,
+      manualPostHydrationTrigger: false,
 
       // manualStoreHydration: true,
       // manualPostHydrationTrigger: true,
