@@ -1,20 +1,20 @@
 import { defineStore } from 'pinia'
-import { SessionStorage } from 'quasar'
+import { LocalStorage } from 'quasar'
 
 export const useLayoutStore = defineStore('layout', {
   state: () => ({
-    drawerMini: false,
+    miniMode: false,
     expandOnHover: false
   }),
 
-  persist: { storage: SessionStorage },
+  persist: true,
 
   getters: {},
 
   actions: {
-    setDrawerMini (payload) {
-      this.drawerMini = !this.drawerMini
-      this.drawerMini ? this.expandOnHover = true : this.expandOnHover = false
+    setminiMode (payload) {
+      this.miniMode = !this.miniMode
+      this.miniMode ? this.expandOnHover = true : this.expandOnHover = false
     }
   }
 })

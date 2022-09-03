@@ -8,7 +8,7 @@
           flat
           round
           :icon="layoutStore.expandOnHover ? 'mdi-menu': 'mdi-menu-open'"
-          @click="drawerMini"
+          @click="miniMode"
         />
 
         <q-toolbar-title>
@@ -25,7 +25,7 @@
       v-model="leftDrawerOpen"
       side="left"
       bordered
-      :mini="layoutStore.drawerMini"
+      :mini="layoutStore.miniMode"
       @mouseover="hoverAction"
       @mouseleave="leaveAction"
 
@@ -102,18 +102,18 @@ const menuList = [
   }
 ]
 
-const drawerMini = () => {
-  layoutStore.setDrawerMini()
+const miniMode = () => {
+  layoutStore.setminiMode()
 }
 
 const hoverAction = () => {
   if (layoutStore.expandOnHover == true) {
-    layoutStore.drawerMini = false
+    layoutStore.miniMode = false
   }
 }
 const leaveAction = () => {
   if (layoutStore.expandOnHover == true) {
-    layoutStore.drawerMini = true
+    layoutStore.miniMode = true
   }
 }
 

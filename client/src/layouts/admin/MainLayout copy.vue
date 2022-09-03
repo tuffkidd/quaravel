@@ -110,5 +110,5 @@ const toggleLeftDrawer = () => {
   leftDrawerOpen.value = !leftDrawerOpen.value
 }
 
-layoutStore.setDrawerMini(false)
+layoutStore.setminiMode(false)
 </script>

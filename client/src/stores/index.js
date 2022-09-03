@@ -2,12 +2,8 @@ import { store } from 'quasar/wrappers'
 import { createPinia } from 'pinia'
 
 // 로컬스토리지
-// import { createQuasarWebStoragePersistedState } from 'pinia-plugin-persistedstate/quasar'
-// import { SessionStorage } from 'quasar'
-
-// 쿠키
-import { Cookies } from 'quasar'
-import { createQuasarCookiesPersistedState } from 'pinia-plugin-persistedstate/quasar'
+import { SessionStorage, LocalStorage, Cookies } from 'quasar'
+import { createQuasarWebStoragePersistedState, createQuasarCookiesPersistedState } from 'pinia-plugin-persistedstate/quasar'
 
 /*
  * If not building with SSR mode, you can
