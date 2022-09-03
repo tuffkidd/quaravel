@@ -79,6 +79,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useAuthStore } from 'src/stores/auth'
+import { useRouter } from 'vue-router'
 
 // Notify.create('ddd')
 const policyRef = ref(null)
@@ -88,9 +89,11 @@ const hidePasswd = ref(true) // 비밀번호 보기/감추기 토글
 const acceptPolicy = ref(false) // 운영정책에 동의했는지 여부
 
 const authStore = useAuthStore()
+const router = useRouter()
 
 const login = async () => {
   await authStore.getCsrf()
   await authStore.login(email.value, password.value)
+  router.push({ name: 'admin-dashboard' })
 }
 </script>

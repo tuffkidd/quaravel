@@ -1,5 +1,5 @@
 /* eslint-disable indent */
-import { route } from 'quasar/wrappers'
+import { preFetch, route } from 'quasar/wrappers'
 import {
   createRouter,
   createMemoryHistory,
@@ -8,7 +8,6 @@ import {
 } from 'vue-router'
 import routes from './routes'
 import { useAuthStore } from 'src/stores/auth'
-import { api } from 'src/boot/axios'
 
 export default route(function ({ store }) {
   const createHistory = process.env.SERVER
@@ -28,50 +27,31 @@ export default route(function ({ store }) {
       process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE
     )
   })
-/*
-  Router.beforeEach(async (to, from, next) => {
-    const authStore = useAuthStore(store)
-    const publicAdminPaths = ['/admin/login', '/admin/recover']
 
-    console.log(
-      'requiresAdmin: ',
-      to.matched.some(route => route.meta.requiresAdmin)
-    )
+  // Router.beforeEach((to, from, next) => {
+  //   const authStore = useAuthStore(store)
+  //   const publicAdminPaths = ['/admin/login', '/admin/recover']
 
-    console.log('어드민이냐', authStore.isAdmin)
+  //   console.log('현재 라우트: ', to.name)
 
-    if (to.path.startsWith('/admin')) {
-      next
+  //   console.log(
+  //     'requiresAdmin: ',
+  //     to.matched.some(route => route.meta.requiresAdmin)
+  //   )
 
-    //   if (to.matched.some(route => route.meta.requiresAdmin)) {
-    //     if (!authStore.isAdmin) { // 로그인 안되어있음.
-    //       next({ path: '/admin/login', replace: true })
-    //     }
-    //   } else {
-    //     next()
-    //   }
-    // } else {
-    //   next()
-    }
-    // if (
-    //   to.matched.some(route => route.meta.requiresAdmin) &&
-    //   !authStore.isAdmin
-    // ) {
-    //   console.log('Route: ', to.matched.some((route) => {
-    //     console.log(route)
-    //   }))
-    //   // next({ name: 'admin-login' })
-    //   next()
-    // } else if (
-    //   !to.matched.some(route => route.meta.requiresAdmin) &&
-    //   authStore.isAdmin &&
-    //   publicAdminPaths.includes(to.path)
-    // ) {
-    //   next({ name: 'admin-dashboard' })
-    // } else {
-    //   next()
-    // }
-  })
- */
+  //   if (publicAdminPaths.includes(to.path)) {
+  //     if (authStore.isAdmin) {
+  //       next({ path: '/admin/dashboard' })
+  //     } else {
+  //       next()
+  //     }
+  //   } else if (to.matched.some(route => route.meta.requiresAdmin) && !authStore.isAdmin) {
+  //     console.log('시팔', authStore.isAdmin)
+  //     next({ path: '/admin/login' })
+  //   } else {
+  //     next()
+  //   }
+  // })
+
   return Router
 })

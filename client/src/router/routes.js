@@ -12,10 +12,6 @@ import AdminRecoverPage from 'pages/admin/RecoverPage.vue'
 import AdminDashboardPage from 'pages/admin/DashboardPage.vue'
 
 export default function (store) {
-  const authStore = useAuthStore(store)
-
-  const MainLayout = authStore.isAdmin ? AdminMainLayout : AdminPublicLayout
-
   const routes = [
     {
       path: '/',
@@ -30,7 +26,7 @@ export default function (store) {
     // 어드민 로그인
     {
       path: '/admin/login',
-      component: AdminPublicLayout,
+      component: () => import('layouts/admin/PublicLayout.vue'),
       children: [
         {
           path: '', name: 'admin-login', component: () => import('pages/admin/LoginPage.vue')
@@ -40,7 +36,7 @@ export default function (store) {
     // 어드민 리커버
     {
       path: '/admin/recover',
-      component: AdminPublicLayout,
+      component: () => import('layouts/admin/PublicLayout.vue'),
       children: [
         {
           path: 'recover', name: 'admin-recover', component: () => import('pages/admin/RecoverPage.vue')
@@ -50,7 +46,6 @@ export default function (store) {
     // 어드민 대시보드
     {
       path: '/admin/dashboard',
-      name: 'admin-dashboard',
       component: AdminMainLayout,
       children: [
         {
