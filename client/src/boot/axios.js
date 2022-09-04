@@ -8,8 +8,8 @@ const api = axios.create({
 })
 
 export default boot(async ({ app, store }) => {
-  const authStore = useAuthStore()
-
+  const authStore = useAuthStore(store)
+  console.log('axios.js 스토어', authStore.token)
   // const authStore = useAuthStore(store)
   api.interceptors.request.use(config => {
     config.headers = {

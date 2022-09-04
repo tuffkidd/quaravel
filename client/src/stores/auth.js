@@ -26,29 +26,34 @@ export const useAuthStore = defineStore('auth', {
     },
     // 로그인
     async login (email, password) {
-      if (!this.token || this.token === '') {
-        // 현재 토큰이 없다면 로그인 한다.
-        try {
-          const { data } = await api.post('/v1/auth/login', { email, password })
-          this.setToken(data)
-          this.setUser()
-        } catch (error) {
-          if (error) throw error
-        }
-      } else {
-        // 있다면 대시보드로 이동.
-        this.router.push('/admin/dashboard')
+      try {
+        const { data } = await api.post('/v1/auth/login', { email, password })
+        this.setToken(data)
+      } catch (error) {
+        if (error) throw error
       }
     },
     // 사용자 저장
-    async setUser () {
+    async getUser () {
       try {
-        await api.get('/v1/auth/user').then(res => {
-          this.id = res.data.id
-          this.name = res.data.name
-          this.email = res.data.email
-          this.isAdmin = !!(res.data.type === 'S' || res.data.type === 'A')
-        })
+        const { data } = await api.get('/v1/auth/user')
+        this.id = data.id
+        this.name = data.name
+        this.email = data.email
+        this.isAdmin = !!(data.type === 'S' || data.type === 'A')
+
+        // await api.get('/v1/auth/user').then(res => {
+        //   this.id = res.data.id
+        //   this.name = res.data.name
+        //   this.email = res.data.email
+        //   this.isAdmin = !!(res.data.type === 'S' || res.data.type === 'A')
+        //   if (res.data.type === 'S' || res.data.type === 'A') {
+        //   // 관리자면 대시보드로 이동
+        //     this.router.push('/admin/dashboard')
+        //   } else {
+        //     this.router.push('/')
+        //   }
+        // })
       } catch (error) {
         if (error) throw error
       }

@@ -94,6 +94,7 @@ const router = useRouter()
 const login = async () => {
   await authStore.getCsrf()
   await authStore.login(email.value, password.value)
-  router.push({ name: 'admin-dashboard' })
+  await authStore.getUser()
+  router.replace('/admin/dashboard')
 }
 </script>

@@ -1,15 +1,21 @@
+/************************************************
+ * 관리자
+ ***********************************************/
 
-import { useAuthStore } from 'src/stores/auth'
-import { toRaw } from 'vue'
+/** 레아아웃 */
+const AMainLayout = import('layouts/admin/MainLayout.vue')
+const APublicLayout = import('layouts/admin/PublicLayout.vue')
 
-// Layouts
-import AdminMainLayout from 'layouts/admin/MainLayout.vue'
-import AdminPublicLayout from 'layouts/admin/PublicLayout.vue'
+/** 페이지 */
+const ALogin = import('pages/admin/LoginPage.vue')
+const ARecover = import('pages/admin/RecoverPage.vue')
+const ADashboard = import('pages/admin/DashboardPage.vue')
 
-// Pages
-import AdminLoginPage from 'pages/admin/LoginPage.vue'
-import AdminRecoverPage from 'pages/admin/RecoverPage.vue'
-import AdminDashboardPage from 'pages/admin/DashboardPage.vue'
+// 사용자
+const AUserList = import('pages/admin/users/ListPage.vue')
+const AUserCreate = import('pages/admin/users/CreatePage.vue')
+const AUserEdit = import('pages/admin/users/EditPage.vue')
+const AUserShow = import('pages/admin/users/ShowPage.vue')
 
 export default function (store) {
   const routes = [
@@ -21,76 +27,36 @@ export default function (store) {
           path: '',
           name: 'home',
           component: () => import('pages/IndexPage.vue')
-        }]
+        }
+      ]
     },
-    // 어드민 로그인
     {
       path: '/admin/login',
-      component: () => import('layouts/admin/PublicLayout.vue'),
-      children: [
-        {
-          path: '', name: 'admin-login', component: () => import('pages/admin/LoginPage.vue')
-        }
-      ]
+      component: () => APublicLayout,
+      children: [{ path: '', component: () => ALogin }]
     },
-    // 어드민 리커버
     {
       path: '/admin/recover',
-      component: () => import('layouts/admin/PublicLayout.vue'),
-      children: [
-        {
-          path: 'recover', name: 'admin-recover', component: () => import('pages/admin/RecoverPage.vue')
-        }
-      ]
+      component: () => APublicLayout,
+      children: [{ path: '', component: () => ARecover }]
     },
-    // 어드민 대시보드
     {
       path: '/admin/dashboard',
-      component: AdminMainLayout,
+      component: () => AMainLayout,
+      children: [{ path: '', component: () => ADashboard }]
+    },
+    {
+      path: '/admin/users',
+      component: () => AMainLayout,
+      meta: { requiresAdmin: true },
       children: [
-        {
-          path: '',
-          name: 'admin-dashboard',
-          component: () => import('pages/admin/DashboardPage.vue'),
-          meta: {
-            requiresAdmin: true
-          }
-        }
+        { path: '', redirect: '/admin/users/list' },
+        { path: 'list', component: () => AUserList },
+        { path: 'create', component: () => AUserCreate },
+        { path: ':id', component: () => AUserShow },
+        { path: ':id/edit', component: () => AUserEdit }
       ]
     },
-    // {
-    //   path: '/admin',
-    //   // component: () => import('layouts/admin/MainLayout.vue'),
-    //   component: MainLayout,
-    //   children: [
-    //     {
-    //       path: 'login',
-    //       name: 'admin-login',
-    //       component: () => import('pages/admin/LoginPage.vue')
-    //     },
-    //     {
-    //       path: 'recover',
-    //       name: 'admin-recover',
-    //       component: () => import('pages/admin/RecoverPage.vue')
-    //     },
-    //     {
-    //       path: 'dashboard',
-    //       name: 'admin-dashboard',
-    //       component: () => import('pages/admin/DashboardPage.vue'),
-    //       meta: {
-    //         requiresAdmin: true
-    //       }
-    //     },
-    //     {
-    //       path: 'user',
-    //       name: 'admin-user-list',
-    //       component: AdminDashboardPage,
-    //       meta: {
-    //         requiresAdmin: true
-    //       }
-    //     }
-    //   ]
-    // },
     // Always leave this as last one,
     // but you can also remove it
     {
