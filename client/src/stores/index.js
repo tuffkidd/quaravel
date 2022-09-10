@@ -3,7 +3,10 @@ import { createPinia } from 'pinia'
 
 // 로컬스토리지
 import { SessionStorage, LocalStorage, Cookies } from 'quasar'
-import { createQuasarWebStoragePersistedState, createQuasarCookiesPersistedState } from 'pinia-plugin-persistedstate/quasar'
+import {
+  createQuasarWebStoragePersistedState,
+  createQuasarCookiesPersistedState
+} from 'pinia-plugin-persistedstate/quasar'
 
 /*
  * If not building with SSR mode, you can
@@ -20,10 +23,12 @@ export default store(({ ssrContext }) => {
   // You can add Pinia plugins here
   // pinia.use(SomePiniaPlugin)
 
+  /**
+   * 쿠키용
+   */
   const cookies = process.env.SERVER ? Cookies.parseSSR(ssrContext) : Cookies
-  pinia.use(createQuasarCookiesPersistedState(
-    cookies,
-    {
+  pinia.use(
+    createQuasarCookiesPersistedState(cookies, {
       cookieOptions: {
         httpOnly: true,
         secure: true,
@@ -31,8 +36,13 @@ export default store(({ ssrContext }) => {
         maxAge: 3600,
         sameSite: 'strict'
       }
-    }
-  ))
+    })
+  )
+  // 쿠키용 끝
 
+  /**
+   * 웹스토리지용
+   */
+  // pinia.use(createQuasarWebStoragePersistedState(SessionStorage))
   return pinia
 })

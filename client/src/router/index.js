@@ -32,14 +32,18 @@ export default route(function ({ store }) {
     const authStore = useAuthStore(store)
     const publicAdminPaths = ['/admin/login', '/admin/recover']
 
-    console.log('현재 라우트: ', to.name)
+    console.log('현재 라우트: ', to.path)
     console.log('야 쿠키 어드민: ', authStore.isAdmin)
     console.log(
       'requiresAdmin: ',
       to.matched.some(route => route.meta.requiresAdmin)
     )
 
-    if (to.matched.some(route => route.meta.requiresAdmin) && !authStore.isAdmin && !publicAdminPaths.includes(to.path)) {
+    if (
+      to.matched.some(route => route.meta.requiresAdmin) &&
+      !authStore.isAdmin &&
+      !publicAdminPaths.includes(to.path)
+    ) {
       next({ path: '/admin/login' })
     } else if (authStore.isAdmin && publicAdminPaths.includes(to.path)) {
       next({ path: '/admin/dashboard', replace: true })

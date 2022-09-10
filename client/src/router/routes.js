@@ -43,6 +43,7 @@ export default function (store) {
     {
       path: '/admin/dashboard',
       component: () => AMainLayout,
+      meta: { requiresAdmin: true },
       children: [{ path: '', component: () => ADashboard }]
     },
     {
