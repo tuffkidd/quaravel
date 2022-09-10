@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import { LocalStorage } from 'quasar'
 
 export const useLayoutStore = defineStore('layout', {
   state: () => ({
@@ -14,7 +13,7 @@ export const useLayoutStore = defineStore('layout', {
   actions: {
     setminiMode (payload) {
       this.miniMode = !this.miniMode
-      this.miniMode ? this.expandOnHover = true : this.expandOnHover = false
+      this.miniMode ? (this.expandOnHover = true) : (this.expandOnHover = false)
     }
   }
 })

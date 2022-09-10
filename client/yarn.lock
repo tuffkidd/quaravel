@@ -119,10 +119,10 @@
     vite "^2.9.13"
     webpack-merge "^5.8.0"
 
-"@quasar/extras@^1.15.2":
-  version "1.15.2"
-  resolved "https://registry.yarnpkg.com/@quasar/extras/-/extras-1.15.2.tgz#1e914ddfebbb9ed474baba37e2c6e6c51cf0294e"
-  integrity sha512-2tlj2nrVzKm4HX8nfdLOh7Y3Lb0SSZ0+5ylqHuWpcckr4myixZwE4l5WeWfx3kmAkKOnSETHHmwLxAajCgA0Ww==
+"@quasar/extras@^1.15.3":
+  version "1.15.3"
+  resolved "https://registry.yarnpkg.com/@quasar/extras/-/extras-1.15.3.tgz#3fa4cab6df9b6d2001e6e8192a005ca71b1b0719"
+  integrity sha512-kc2h+zTOBRx8eR3TYUjB3ZmALYoH3LBSaOFuha11Ncixk8NTwm9GNCQL6kxmC/CQiaP9Q78KFFgrv3AXGnCvLw==
 
 "@quasar/fastclick@1.1.5":
   version "1.1.5"
@@ -2532,10 +2532,10 @@ picomatch@^2.0.4, picomatch@^2.2.1, picomatch@^2.2.2, picomatch@^2.3.1:
   resolved "https://registry.yarnpkg.com/picomatch/-/picomatch-2.3.1.tgz#3ba3833733646d9d3e4995946c1365a67fb07a42"
   integrity sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==
 
-pinia-plugin-persistedstate@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/pinia-plugin-persistedstate/-/pinia-plugin-persistedstate-2.1.1.tgz#584c416cdc278689ae9d49483621ec96dcb7d6ef"
-  integrity sha512-HUgsU5IRtM75eAQiIqzT3p1oPEuYH1/B2ipTMU++yE+FV0LkHaBswdKXs0RMWYCmugO8s62oxLTh/N1dLNp+5A==
+pinia-plugin-persistedstate@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/pinia-plugin-persistedstate/-/pinia-plugin-persistedstate-2.2.0.tgz#46b203e9ba3b9f6fbc4929eec4fb567d61f38e99"
+  integrity sha512-j3CknBg4H17MXDwG+X6JT50wmGkxG5cWshVb5pdV8o/ivMxiVsML9ADwe7SEchas1myIWd6/sYeVv0/IGT5YrQ==
 
 pinia@^2.0.21:
   version "2.0.21"

@@ -7,7 +7,7 @@ import {
   createWebHashHistory
 } from 'vue-router'
 import routes from './routes'
-import { useAuthStore } from 'src/stores/auth'
+import { useUserStore } from 'src/stores/user'
 
 export default route(function ({ store }) {
   const createHistory = process.env.SERVER
@@ -29,11 +29,11 @@ export default route(function ({ store }) {
   })
 
   Router.beforeEach((to, from, next) => {
-    const authStore = useAuthStore(store)
+    const userStore = useUserStore(store)
     const publicAdminPaths = ['/admin/login', '/admin/recover']
 
     console.log('현재 라우트: ', to.path)
-    console.log('야 쿠키 어드민: ', authStore.isAdmin)
+    console.log('야 쿠키 어드민: ', userStore.isAdmin)
     console.log(
       'requiresAdmin: ',
       to.matched.some(route => route.meta.requiresAdmin)
@@ -41,11 +41,11 @@ export default route(function ({ store }) {
 
     if (
       to.matched.some(route => route.meta.requiresAdmin) &&
-      !authStore.isAdmin &&
+      !userStore.isAdmin &&
       !publicAdminPaths.includes(to.path)
     ) {
       next({ path: '/admin/login' })
-    } else if (authStore.isAdmin && publicAdminPaths.includes(to.path)) {
+    } else if (userStore.isAdmin && publicAdminPaths.includes(to.path)) {
       next({ path: '/admin/dashboard', replace: true })
     } else {
       next()
